@@ -3,10 +3,10 @@
 Software::Software():Material()
 {
 	Version = 0;
-	SO = 0;
+	SO = "default";
 }
 
-Software::Software(int id, std::string titu, int ver, int so):Material(id,titu)
+Software::Software(int id, std::string titu, int ver, std::string so):Material(id,titu)
 {
 	Version = ver;
 	SO = so;
@@ -17,7 +17,7 @@ void Software::setVersion(int ver)
 	Version = ver;
 }
 
-void Software::setOS(int os)
+void Software::setOS(std::string os)
 {
 	SO = os;
 }
@@ -27,14 +27,14 @@ int Software::getVersion()
 	return Version;
 }
 
-int Software::getOS()
+std::string Software::getOS()
 {
 	return SO;
 }
 
 void Software::muestraDatos()
 {
-	std::cout << "Software " << "ID: " << idMaterial << " | Titulo: " << titulo << " | SO: " << SO << " | Version: " << Version << std::endl;
+	std::cout << "ID: " << idMaterial << " | Titulo: " << titulo << " | SO: " << SO << " | Version: " << Version << std::endl;
 }
 
 int Software::cantidadDiasPrestamo()

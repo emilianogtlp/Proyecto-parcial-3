@@ -6,20 +6,21 @@ class Software:public Material
 public:
 	//constructores
 	Software();
-	Software(int id, std::string titu, int ver, int so);
+	Software(int id, std::string titu, int ver, std::string so);
 
 	//metodos de acceso y modificacion
 
 	void setVersion(int ver);
-	void setOS(int os);
+	void setOS(std::string os);
 	int getVersion();
-	int getOS();
+	std::string getOS();
 
 	// metodos abstractos heredados de Material.h
 	void muestraDatos();
 	int cantidadDiasPrestamo();
 
 private:
-	int Version, SO;
+	int Version;
+	std::string	SO;
 };
 
