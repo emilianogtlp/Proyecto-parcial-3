@@ -241,7 +241,7 @@ ostream& operator<<(ostream& os, Fecha f1)
 		os << "Error";
 		break;
 	}
-	os << " / " << f1.aa << endl;
+	os << " / " << f1.aa;
 	return os;
 }
 
