@@ -90,7 +90,7 @@ bool Fecha::operator>=(Fecha f1)
 			return true;
 		}
 		if (mm == f1.mm) {
-			if (dd >= f1.mm) {
+			if (dd >= f1.dd) {
 				return true;
 			}
 			if (dd < f1.dd) {
@@ -116,7 +116,7 @@ bool Fecha::operator<=(Fecha f1)
 			return true;
 		}
 		if (mm == f1.mm) {
-			if (dd <= f1.mm) {
+			if (dd <= f1.dd) {
 				return true;
 			}
 			if (dd > f1.dd) {
@@ -142,7 +142,7 @@ bool Fecha::operator>(Fecha f1)
 			return true;
 		}
 		if (mm == f1.mm) {
-			if (dd > f1.mm) {
+			if (dd > f1.dd) {
 				return true;
 			}
 			if (dd <= f1.dd ) {
@@ -168,7 +168,7 @@ bool Fecha::operator<(Fecha f1)
 			return true;
 		}
 		if (mm == f1.mm) {
-			if (dd < f1.mm) {
+			if (dd < f1.dd) {
 				return true;
 			}
 			if (dd >= f1.dd) {

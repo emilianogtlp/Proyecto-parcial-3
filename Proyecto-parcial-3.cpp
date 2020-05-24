@@ -36,19 +36,26 @@ int main()
     Disco tempd[30];
     Software temps[30];
     Fecha fechat;
+    Reserva reservasmaterial[60];
     int basura;
+    int numero_reservas=0;
+    int numero_reservas_conflicto = 0;
     // Varios
     int numErrores = 0;
     int respuesta;
     int idmaterialt;
+    int numeromatenarr;
     Fecha fechat2;
     Fecha fecha_inicio;
     Fecha fecha_fin;
+    Fecha fecha_h;
+    Reserva reserva_h;
     //ejecutadores
     int ejecutador1 = 0;
     int ejecutador_menu = 1;
     int ejecutador_material = 0;
     int comprobante_material = 0;
+    int comprobante_reserva = 0;
     // Se cargan los datos en los arreglos
     while (archivoMaterial >> IDMaterial) {
         archivoMaterial >> nombre;
@@ -203,10 +210,93 @@ int main()
             }
             break;
         case 5:
-
+            cout << "Ingrese su ID de cliente:" << endl;
+            cin >> IDcliente;
+            cout << "Ingrese el ID del material:" << endl;
+            cin >> idmaterialt;
+            while (comprobante_material == 0) {
+                for (int cont = 0; cont < i; cont++)
+                {
+                    if (arregloMaterial[cont]->getIdMaterial() == idmaterialt) {
+                        numeromatenarr = cont;
+                        comprobante_material = 1;
+                    }
+                }
+                if (comprobante_material == 0) {
+                    cout << "Ha ingresado un ID invalido, digite uno nuevo: " << endl;
+                    cin >> idmaterialt;
+                }
+            }
+            comprobante_material = 0;
+            cout << "Ingrese una fecha para la reserva: " << endl;
+            cin >> fechat;
+            for (int cont2 = 0; cont2 < r; cont2++)
+            {
+                if (arregloReservacion[cont2].getIdmaterial() == idmaterialt)
+                {
+                    reservasmaterial[numero_reservas].setReserva(IDcliente, idmaterialt, arregloReservacion[cont2].getFecha());
+                    numero_reservas++;
+                    
+                    /*fecha_inicio = arregloReservacion[cont2].getFecha();
+                    fecha_fin = arregloReservacion[cont2].calculaFechaFinReserva(arregloMaterial[numeromatenarr]->cantidadDiasPrestamo());
+                    reserva_h.setFecha(fechat);
+                    fecha_h = reserva_h.calculaFechaFinReserva(arregloMaterial[numeromatenarr]->cantidadDiasPrestamo());
+                    cout << "Fechas de reserva existente:" << endl;
+                    cout << fecha_inicio << endl;
+                    cout << fecha_fin << endl;
+                    cout << "Fechas de reserva hipotetica:" << endl;
+                    cout << fechat << endl;
+                    cout << fecha_h << endl;
+                    if (((fechat >= fecha_inicio && fechat < fecha_fin) || (fecha_h<fecha_fin && fecha_h>fecha_inicio))&&comprobante_reserva == 0)
+                    {
+                        cout << "El material que ha seleccionado ya se encuentra reservado en esa fecha" << endl;
+                        comprobante_reserva = 1;
+                    }
+                    if ((fechat>=fecha_fin || fecha_h<=fecha_inicio) && comprobante_reserva == 0)
+                    { 
+                        arregloReservacion[r].setReserva(IDcliente, idmaterialt, fechat);
+                        r++;
+                        comprobante_reserva = 1;
+                        cout << "Reserva efectuada" << endl;
+                    }*/
+                }
+            }
+            for (int cont3 = 0; cont3 < numero_reservas; cont3++)
+            {
+                fecha_inicio = reservasmaterial[cont3].getFecha();
+                fecha_fin = reservasmaterial[cont3].calculaFechaFinReserva(arregloMaterial[numeromatenarr]->cantidadDiasPrestamo());
+                reserva_h.setFecha(fechat);
+                fecha_h = reserva_h.calculaFechaFinReserva(arregloMaterial[numeromatenarr]->cantidadDiasPrestamo());
+                if (((fechat >= fecha_inicio && fechat < fecha_fin) || (fecha_h<fecha_fin && fecha_h>fecha_inicio)) && comprobante_reserva == 0)
+                {
+                    numero_reservas_conflicto++;
+                    comprobante_reserva = 1;
+                }
+            }
+            if (numero_reservas_conflicto == 0)
+            {
+                arregloReservacion[r].setReserva(IDcliente, idmaterialt, fechat);
+                r++;
+                comprobante_reserva = 1;
+                cout << "Reserva efectuada" << endl;
+            }
+            if (numero_reservas_conflicto != 0)
+            {
+                cout << "El material que ha seleccionado tiene " << numero_reservas << " reservaciones de las cuales ";
+                cout << numero_reservas_conflicto << " se empalman con la suya " << endl;
+            }
+            if (comprobante_reserva == 0) {
+                cout << "Reserva efectuada" << endl;
+                arregloReservacion[r].setReserva(IDcliente, idmaterialt, fechat);
+                r++;
+            }
+            numero_reservas = 0;
+            numero_reservas_conflicto = 0;
+            comprobante_reserva = 0;
             break;
         case 6:
             cout << " Hasta pronto! ";
+
             ejecutador_menu = 0;
             break;
         default:
@@ -220,4 +310,20 @@ int main()
     return 0;
 }
 
+// Pruebas
+//int main() {
+//	Fecha fecha_inicio(20, 11, 2017);
+//	Fecha fecha_fin(22, 11, 2017);
+//	Fecha fechat(15, 11, 2017);
+//	Fecha fechah(17, 11, 2017);
+//	if (fechat<fecha_inicio) {
+//		cout << "si";
+//	}
+//	else
+//	{
+//		cout << "no";
+//	}
+//
+//	return 0;
+//}
 
