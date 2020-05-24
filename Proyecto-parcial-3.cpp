@@ -6,7 +6,6 @@
 #include <string.h>
 #include <iostream>
 #include <fstream>
-using namespace std;
 int main()
 {
     // Se declaran y abren los archvos de recursos
@@ -38,11 +37,18 @@ int main()
     Software temps[30];
     Fecha fechat;
     int basura;
-    
-
+    // Varios
+    int numErrores = 0;
+    int respuesta;
+    int idmaterialt;
+    Fecha fechat2;
+    Fecha fecha_inicio;
+    Fecha fecha_fin;
     //ejecutadores
     int ejecutador1 = 0;
-   
+    int ejecutador_menu = 1;
+    int ejecutador_material = 0;
+    int comprobante_material = 0;
     // Se cargan los datos en los arreglos
     while (archivoMaterial >> IDMaterial) {
         archivoMaterial >> nombre;
@@ -101,17 +107,117 @@ int main()
         }
         if (ejecutador1 == 0) {
             archivoReserva >> basura;
-            archivoReserva >> basura;
+            numErrores++;
         }
         ejecutador1 = 0;
     }
-    for (int cont = 0; cont < 20; cont++) {
-        arregloMaterial[cont]->muestraDatos();
-    }
-    for (int cont = 0; cont < r; cont++)
+    while (ejecutador_menu == 1)
     {
-        cout << arregloReservacion[cont].getFecha() << " | " << arregloReservacion[cont].getIdmaterial();
-        cout << " | " << arregloReservacion[cont].getIdcliente() << endl;
+        cout << "               MENU" << endl;
+        cout << "  1.- Consultar lista de Materiales" << endl;
+        cout << "  2.- Consultar lista de reservaciones" << endl;
+        cout << "  3.- Consultar las reservaciones de un material" << endl;
+        cout << "  4.- Consultar las reservaciones de una fecha dada " << endl;
+        cout << "  5.- Hacer una reservacion" << endl;
+        cout << "  6.- Terminar" << endl;
+        cin >> respuesta;
+        while (respuesta < 1 || respuesta>6) {
+            cout << "Respuesta invalida, intentelo de nuevo: " << endl;
+            cin >> respuesta;
+        }
+        switch (respuesta)
+        {
+        case 1:
+            for (int cont = 0; cont < i; cont++) {
+                arregloMaterial[cont]->muestraDatos();
+            }
+            break;
+        case 2:
+            for (int cont = 0; cont < r; cont++)
+            {
+                cout << "Fecha inicio reservacion: " << arregloReservacion[cont].getFecha() << " | ";
+                cout << "Fecha fin reservacion: ";
+                for (int cont2 = 0; cont2 < i; cont2++)
+                {
+                    if (arregloReservacion[cont].getIdmaterial() == arregloMaterial[cont2]->getIdMaterial()) {
+                        cout << arregloReservacion[cont].calculaFechaFinReserva(arregloMaterial[cont2]->cantidadDiasPrestamo());
+                    }
+                }
+                cout << " |  ID Material: " << arregloReservacion[cont].getIdmaterial();
+                cout << " |  ID cliente:" << arregloReservacion[cont].getIdcliente() << endl;
+            }
+            break;
+        case 3:
+            cout << "Escriba el ID del material: " << endl;
+            cin >> idmaterialt;
+            while (comprobante_material == 0) {
+                for (int  cont = 0; cont < i; cont++)
+                {
+                    if (arregloMaterial[cont]->getIdMaterial() == idmaterialt) {
+                        comprobante_material = 1;
+                    }
+                }
+                if (comprobante_material == 0) {
+                    cout << "Ha ingresado un ID invalido, digite uno nuevo: " << endl;
+                    cin >> idmaterialt;
+                }
+            }
+            comprobante_material = 0;
+            for (int cont = 0; cont < i; cont++) {
+                if (arregloMaterial[cont]->getIdMaterial() == idmaterialt)
+                {
+                    for (int cont2 = 0; cont2 < r; cont2++)
+                    {
+                        if (arregloMaterial[cont]->getIdMaterial() == arregloReservacion[cont2].getIdmaterial())
+                        {
+                            ejecutador_material = 1;
+                            cout << "Nombre material: " << arregloMaterial[cont]->getTitulo() << " | ";
+                            cout << "Fecha inicio reservacion: " << arregloReservacion[cont2].getFecha();
+                            cout << " | Fecha fin reservacion: ";
+                            cout << arregloReservacion[cont2].calculaFechaFinReserva(arregloMaterial[cont]->cantidadDiasPrestamo());
+                            cout << endl;
+                        }
+                    }
+                }
+            }
+            if (ejecutador_material == 0)
+            {
+                cout << "No se encontro ninguna reservacion para ese material" << endl;
+            }
+            ejecutador_material = 0;
+            break;
+        case 4:
+            cin >> fechat2;
+            for (int cont = 0; cont < r; cont++) {
+                for (int cont2 = 0; cont2 < i; cont2++)
+                {
+                    if (arregloReservacion[cont].getIdmaterial() == arregloMaterial[cont2]->getIdMaterial()) {
+                        fecha_inicio = arregloReservacion[cont].getFecha();
+                        fecha_fin = arregloReservacion[cont].calculaFechaFinReserva(arregloMaterial[cont2]->cantidadDiasPrestamo());
+                        if (fechat2 >= fecha_inicio&& fechat2 < fecha_fin) {
+                            cout << "Nombre material: " << arregloMaterial[cont2]->getTitulo() << " | ";
+                            cout << "Id cliente: " << arregloReservacion[cont].getIdcliente() << endl;
+                        }
+                    }
+                }
+            }
+            break;
+        case 5:
+
+            break;
+        case 6:
+            cout << " Hasta pronto! ";
+            ejecutador_menu = 0;
+            break;
+        default:
+            cout << "ERROR";
+            ejecutador_menu = 0;
+            break;
+        }
     }
+    archivoMaterial.close();
+    archivoReserva.close();
     return 0;
 }
+
+
