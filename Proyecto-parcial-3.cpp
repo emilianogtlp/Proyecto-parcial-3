@@ -11,8 +11,10 @@ int main()
     // Se declaran y abren los archvos de recursos
     ifstream archivoMaterial;
     ifstream archivoReserva;
+    ofstream archivoReserva_salida;
     archivoMaterial.open("Material.txt");
     archivoReserva.open("Reserva.txt");
+    archivoReserva_salida.open("Reserva_actualizado.txt");
     
     // declaracion de matrices de distintos tipos donde se almacena la info
     Material *arregloMaterial[30];
@@ -296,8 +298,21 @@ int main()
             break;
         case 6:
             cout << " Hasta pronto! ";
-
+            for (int cont5 = 0; cont5 < r; cont5++)
+            {
+                archivoReserva_salida << arregloReservacion[cont5].getFecha().getDia() << " ";
+                //cout << arregloReservacion[cont5].getFecha().getDia() << " ";
+                archivoReserva_salida << arregloReservacion[cont5].getFecha().getMes() << " ";
+                //cout << arregloReservacion[cont5].getFecha().getMes() << " ";
+                archivoReserva_salida << arregloReservacion[cont5].getFecha().getAnio() << " ";
+                //cout << arregloReservacion[cont5].getFecha().getAnio() << " ";
+                archivoReserva_salida << arregloReservacion[cont5].getIdmaterial() << " ";
+                //cout << arregloReservacion[cont5].getIdmaterial() << " ";
+                archivoReserva_salida << arregloReservacion[cont5].getIdcliente() << endl;
+                //cout << arregloReservacion[cont5].getIdcliente() << endl;
+            }
             ejecutador_menu = 0;
+            
             break;
         default:
             cout << "ERROR";
@@ -305,6 +320,8 @@ int main()
             break;
         }
     }
+    //archivoReserva << "holaaaa" << endl;
+    archivoReserva_salida.close();
     archivoMaterial.close();
     archivoReserva.close();
     return 0;
